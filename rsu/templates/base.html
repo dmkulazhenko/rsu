@@ -1,0 +1,35 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+    {% if title %}{{ title }} - RSU{% else %}{{"RSU Shipment"}}{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for("main.index") }}">RSU</a>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_anonymous %}
+                    <li><a class="navbar-right navbar-link" href="{{ url_for("auth.login") }}">Login</a></li>
+                    <li><a class="navbar-right navbar-link" href="{{ url_for("auth.register") }}">Register</a></li>
+                {% else %}
+                    <li><a class="navbar-right navbar-link" href="{{ url_for("auth.logout") }}">Logout</a> </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.color }}" role="alert">{{ message.msg }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
